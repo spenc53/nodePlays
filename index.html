@@ -1,0 +1,73 @@
+<html>
+<header>
+  <title>Snake.iO</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href='http://cdn.foundation5.zurb.com/foundation.css'>
+  <script src='http://cdn.foundation5.zurb.com/foundation.js'></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src='js/main.js'></script>
+  <link rel="stylesheet" type="text/css" href="public/main.css"></link>
+</header>
+
+<body>
+  <!-- Nav Bar -->
+  <nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a>Spencer, Kevin and Co Play Pokemon</a></h1>
+      </li>
+    </ul>
+
+    <section class="top-bar-section">
+
+    </section>
+  </nav>
+  <!-- Nav Bar End -->
+
+  <div class='row'>
+    <div class='game-screen large-5 columns'>
+      <img src='images/pokemon.jpg' style='margin:10px'/>
+    </div>
+    <div class='large-7 columns'>
+      <ul id='messages' style='color:white'></ul>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="row collapse">
+            <form>
+              <div class="small-10 columns">
+                <input id='message' type="text" placeholder="Send message">
+              </div>
+              <div class="small-2 columns" >
+                <button id='send-message'>Send</button>
+              </div>
+            </form>
+              <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+              <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+              <script>
+                $(function () {
+                  var socket = io();
+                  $('form').submit(function(){
+                    if($('#message').val() == "") return false;
+                    socket.emit('chat message', $('#message').val());
+                    $('#message').val('');
+                    return false;
+                  });
+                  socket.on('chat message', function(msg){
+                    console.log(msg);
+                    $('#messages').append($('<li style="{color:white;}">').text(msg));
+                    window.scrollTo(0, document.body.scrollHeight);
+                  });
+                });
+              </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+</body>
+
+</html>
