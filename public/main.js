@@ -1,11 +1,33 @@
+var username = '';
 $(function () {
+  $(document).foundation();
   var socket = io();
-  $('form').submit(function () {
-    if ($('#message').val() == "") return false;
-    socket.emit('chat message', $('#message').val());
-    $('#message').val('');
-    return false;
+  $('#usernameBtn').click(function() {
+    let name = $('#usernameText').val().trim();
+    if(name == '') return;
+    if(name.indexOf('<><>') != -1) return;
+    username = name;
+    $('#usernameModal').foundation('reveal','close');
   });
+
+  $('#send-message').click(function() {
+    if(username.trim() == '') {
+      $('#usernameModal').foundation('reveal','open');
+      return;
+    }
+    if ($('#message').val() == "") return;
+    socket.emit('chat message', username + '<><>' + $('#message').val());
+    $('#message').val('');
+    return;
+  })
+
+  $(document).keypress(function(e) {
+    if(e.which == 13) {
+      if($('#usernameModal').hasClass('open')) $('#usernameBtn').click();
+      else $('#send-message').click();
+    }
+  })
+
   socket.on('chat message', function (msg) {
     $('#messages').prepend('<li>&nbsp;&nbsp;&nbsp;&nbsp;' + msg + '</li>');
     window.scrollTo(0, document.body.scrollHeight);

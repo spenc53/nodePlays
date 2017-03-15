@@ -40,8 +40,11 @@ app.get('/clear', function(req,res){
 io.on('connection', function(socket){
   io.emit('players', ++numOfPlayers);
   socket.on('chat message', function(msg){
-    commands.push(msg);
-    io.emit('chat message', msg);
+    if(msg.indexOf('<><>') == -1) return;
+    let name = msg.substr(0,msg.indexOf('<><>')),
+        cmd = msg.substr(msg.indexOf('<><>')+4);
+    commands.push(cmd);
+    io.emit('chat message', name + ': ' + cmd);
   });
 
   socket.on('disconnect', function() {
