@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -X POST -F "image=@./apple.png" http://localhost:3000/upload

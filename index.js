@@ -25,13 +25,13 @@ app.post('/upload', function(req, res) {
   sampleFile.mv('images/test.png', function(err) {
     if (err)
       return res.status(500).send(err);
- 
+    io.emit('update picture', sampleFile.data)
     res.send('File uploaded!');
   });
 });
 
 app.get('/game', function(req, res){
-  res.sendFile('test.png', { root:"image"});
+  res.sendFile('test.png', { root:"images"});
 });
 
 app.get('/commands', function(req,res)

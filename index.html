@@ -5,7 +5,7 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href='http://cdn.foundation5.zurb.com/foundation.css'>
   <script src='http://cdn.foundation5.zurb.com/foundation.js'></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src='js/main.js'></script>
   <link rel="stylesheet" type="text/css" href="public/main.css"></link>
@@ -28,7 +28,8 @@
 
   <div class='row'>
     <div class='game-screen large-5 columns'>
-      <img src='images/pokemon.jpg' style='margin:10px'/>
+      <img id='game-picture' />
+      <!--<img src='images/pokemon.jpg' style='margin:10px'/>-->
     </div>
     <div class='large-7 columns'>
       <ul id='messages' style='color:white'></ul>
@@ -39,28 +40,60 @@
               <div class="small-10 columns">
                 <input id='message' type="text" placeholder="Send message">
               </div>
-              <div class="small-2 columns" >
+              <div class="small-2 columns">
                 <button id='send-message'>Send</button>
               </div>
             </form>
-              <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-              <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-              <script>
-                $(function () {
-                  var socket = io();
-                  $('form').submit(function(){
-                    if($('#message').val() == "") return false;
-                    socket.emit('chat message', $('#message').val());
-                    $('#message').val('');
-                    return false;
-                  });
-                  socket.on('chat message', function(msg){
-                    console.log(msg);
-                    $('#messages').append($('<li style="{color:white;}">').text(msg));
-                    window.scrollTo(0, document.body.scrollHeight);
-                  });
+            <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+            <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+            <script>
+              $(function () {
+                var socket = io();
+                $('form').submit(function () {
+                  if ($('#message').val() == "") return false;
+                  socket.emit('chat message', $('#message').val());
+                  $('#message').val('');
+                  return false;
                 });
-              </script>
+                socket.on('chat message', function (msg) {
+                  console.log(msg);
+                  $('#messages').append($('<li style="{color:white;}">').text(msg));
+                  window.scrollTo(0, document.body.scrollHeight);
+                });
+                socket.on('update picture', function (data) {
+                  var bytes = new Uint8Array(data);
+
+                  var image = document.getElementById('game-picture');
+                  image.src = "data:image/png;base64," + encode(bytes);
+                })
+                function encode(input) {
+                  var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+                  var output = "";
+                  var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+                  var i = 0;
+
+                  while (i < input.length) {
+                    chr1 = input[i++];
+                    chr2 = i < input.length ? input[i++] : Number.NaN; // Not sure if the index 
+                    chr3 = i < input.length ? input[i++] : Number.NaN; // checks are needed here
+
+                    enc1 = chr1 >> 2;
+                    enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                    enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                    enc4 = chr3 & 63;
+
+                    if (isNaN(chr2)) {
+                      enc3 = enc4 = 64;
+                    } else if (isNaN(chr3)) {
+                      enc4 = 64;
+                    }
+                    output += keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+                      keyStr.charAt(enc3) + keyStr.charAt(enc4);
+                  }
+                  return output;
+                }
+              });
+            </script>
           </div>
         </div>
       </div>
