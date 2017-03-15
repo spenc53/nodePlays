@@ -8,16 +8,13 @@ var port = process.env.PORT || 3000;
 
 app.use(fileUpload());
 app.use("/public", express.static(__dirname + '/public'))
-app.use("/js", express.static(__dirname + '/js'))
-
 app.use("/images", express.static(__dirname + '/images'))
 
-
-
 commands = [];
+numOfPlayers = 0;
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.post('/upload', function(req, res) {
@@ -28,10 +25,6 @@ app.post('/upload', function(req, res) {
     io.emit('update picture', sampleFile.data)
     res.send('File uploaded!');
   });
-});
-
-app.get('/game', function(req, res){
-  res.sendFile('test.png', { root:"images"});
 });
 
 app.get('/commands', function(req,res)
@@ -45,10 +38,15 @@ app.get('/clear', function(req,res){
 });
 
 io.on('connection', function(socket){
+  io.emit('players', ++numOfPlayers);
   socket.on('chat message', function(msg){
     commands.push(msg);
     io.emit('chat message', msg);
   });
+
+  socket.on('disconnect', function() {
+    io.emit('players', --numOfPlayers);
+  })
 });
 
 http.listen(port, function(){

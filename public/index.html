@@ -1,0 +1,66 @@
+<html>
+<header>
+  <title>SKCPP</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href='http://cdn.foundation5.zurb.com/foundation.css'>
+  <script src='http://cdn.foundation5.zurb.com/foundation.js'></script>
+  <link rel="stylesheet" type="text/css" href="public/main.css"></link>
+  <script src='public/main.js'></script>
+</header>
+
+<body>
+  <!-- Nav Bar -->
+  <nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a>Spencer, Kevin, and Co Play Pokemon</a></h1>
+      </li>
+    </ul>
+
+    <section class="top-bar-section">
+
+    </section>
+  </nav>
+  <!-- Nav Bar End -->
+
+  <div class='row'>
+    <div class='game-screen large-5 small-5 columns'>
+      <img id='game-picture' />
+      <!--<img src='images/pokemon.jpg' style='margin:10px'/>-->
+    </div>
+    <div class='large-7 small-7 columns'>
+      <div id='user-count'>Online: 0</div>
+      <ul id='messages' style='color:white'></ul>
+      <div class="row">
+        <div class="large-12 small-12 columns">
+
+          <div class="row collapse">
+            <form>
+              <div class="large-10 small-10 columns">
+                <input id='message' type="text" autocomplete="off" placeholder="Send message">
+              </div>
+              <div class="large-2 small-2 columns">
+                <label id='send-message' class='button tiny'>Send</label>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div id='foot'>
+    <div>
+      Spencer, Kevin, and Co play Pokemon is a recreation of Twitch Plays Pokemon
+    </div>
+    <div>
+      Use the chat to send messages to other people or to press buttons
+    </div>
+    <div>
+      Valid input is 'a', 'b', 'left', 'right', 'up', 'down', 'l', 'r', 'start', 'select'
+    </div>
+  </div>
+</body>
+
+</html>

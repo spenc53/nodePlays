@@ -7,6 +7,49 @@ body {
   color: white;
 }
 
+.top-bar {
+  height:initial !important;
+}
+
 .com {
   color: white;
+}
+
+img {
+  margin-top: 50px;
+}
+
+ul {
+  margin-top:10px;
+  border: 2px solid #303030;
+  max-height: 70%;
+  overflow-y:hidden;
+}
+
+ul > li {
+  list-style: none;
+  color: #d3d3d3;
+}
+
+li:nth-child(even) {
+  background-color: #101010;
+}
+
+.row {
+  overflow-x: hidden;
+}
+
+#user-count {
+  color: #d3d3d3;
+  text-align: center;
+}
+
+.game-screen {
+  margin-top:10px;
+  border-right: thick solid #101010;
+}
+
+#foot {
+  text-align: center;
+  color: #dadada;
 }
