@@ -22,7 +22,7 @@ app.get('/', function(req, res){
 
 app.post('/upload', function(req, res) {
   let sampleFile = req.files.image;
-  sampleFile.mv('image/test.png', function(err) {
+  sampleFile.mv('images/test.png', function(err) {
     if (err)
       return res.status(500).send(err);
  
