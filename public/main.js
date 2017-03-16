@@ -1,6 +1,7 @@
 var username = '';
 $(function () {
   $(document).foundation();
+  $('#usernameModal').foundation('reveal','open');
   var socket = io();
   $('#usernameBtn').click(function() {
     let name = $('#usernameText').val().trim();
@@ -29,7 +30,7 @@ $(function () {
   })
 
   socket.on('chat message', function (msg) {
-    $('#messages').prepend($('<li>').text('&nbsp;&nbsp;&nbsp;&nbsp;' + msg));
+    $('#messages').prepend($('<li>').text(msg));
     window.scrollTo(0, document.body.scrollHeight);
   });
   socket.on('update picture', function (data) {

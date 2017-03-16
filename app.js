@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var fileUpload = require('express-fileupload');
 var port = process.env.PORT || 3000;
-
+let currentImage = null;
 app.use(fileUpload());
 app.use("/public", express.static(__dirname + '/public'))
 app.use("/images", express.static(__dirname + '/images'))
@@ -20,10 +20,12 @@ app.get('/', function(req, res){
 app.post('/upload', function(req, res) {
   let sampleFile = req.files.image;
   sampleFile.mv('images/test.png', function(err) {
-    if (err)
-      return res.status(500).send(err);
-    io.emit('update picture', sampleFile.data)
-    res.send('File uploaded!');
+    if (err) return res.status(500).send(err);
+    if(sampleFile.data != currentImage) {
+      currentImage = sampleFile.data;
+      io.emit('update picture', sampleFile.data)
+    }
+    res.sendStatus(204);
   });
 });
 

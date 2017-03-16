@@ -7,6 +7,11 @@ body {
   color: white;
 }
 
+#usernameModal {
+  color: black;
+  background: #303030;
+}
+
 .top-bar {
   height:initial !important;
 }
@@ -30,6 +35,7 @@ ul {
 ul > li {
   list-style: none;
   color: #d3d3d3;
+  padding-left:15px;
 }
 
 li:nth-child(even) {
