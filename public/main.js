@@ -29,7 +29,7 @@ $(function () {
   })
 
   socket.on('chat message', function (msg) {
-    $('#messages').prepend('<li>&nbsp;&nbsp;&nbsp;&nbsp;' + msg + '</li>');
+    $('#messages').prepend($('<li>').text('&nbsp;&nbsp;&nbsp;&nbsp;' + msg));
     window.scrollTo(0, document.body.scrollHeight);
   });
   socket.on('update picture', function (data) {
