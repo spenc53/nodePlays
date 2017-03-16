@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var fileUpload = require('express-fileupload');
 var port = process.env.PORT || 3000;
-let currentImage = null;
+let currentImage = 1;
 app.use(fileUpload());
 app.use("/public", express.static(__dirname + '/public'))
 app.use("/images", express.static(__dirname + '/images'))
@@ -21,7 +21,7 @@ app.post('/upload', function(req, res) {
   let sampleFile = req.files.image;
   sampleFile.mv('images/test.png', function(err) {
     if (err) return res.status(500).send(err);
-    if(sampleFile.data != currentImage) {
+    if(sampleFile.data.length != currentImage.length) {
       currentImage = sampleFile.data;
       io.emit('update picture', sampleFile.data)
     }
@@ -40,6 +40,7 @@ app.get('/clear', function(req,res){
 });
 
 io.on('connection', function(socket){
+  socket.emit('update picture', currentImage);
   io.emit('players', ++numOfPlayers);
   socket.on('chat message', function(msg){
     if(msg.indexOf('<><>') == -1) return;
